@@ -1,6 +1,17 @@
+/* Отключение масштабирования на мобильных устройствах */
+html {
+  touch-action: manipulation;
+}
+
+/* Отключение масштабирования на всех устройствах */
+body {
+  overflow: hidden;
+  position: fixed;
+}
+
 body {
   font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
+  background-color: #f0f0f0; /* Серый цвет фона */
   margin: 0;
   padding: 0;
 }
