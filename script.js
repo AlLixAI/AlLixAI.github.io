@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var score = 0;
   var clickButton = document.getElementById('clickButton');
   var scoreDisplay = document.getElementById('score');
+  var userInfoElement = document.getElementById('userInfo');
 
   // Функция для отправки запроса на сервер
   function sendClickRequest() {
@@ -47,8 +48,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Проверка наличия данных пользователя
     if (window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
-      console.log('User:', window.Telegram.WebApp.initDataUnsafe.user);
+      const user = window.Telegram.WebApp.initDataUnsafe.user;
+      // Формирование строки с именем и фамилией пользователя
+      const fullName = [user.first_name, user.last_name].filter(Boolean).join(' ');
+      // Обновление информации о пользователе
+      userInfoElement.textContent = `Пользователь: ${fullName}`;
     } else {
+      userInfoElement.textContent = 'Данные пользователя недоступны';
       console.error('Данные пользователя недоступны');
     }
 
