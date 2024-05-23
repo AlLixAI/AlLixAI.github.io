@@ -1,11 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Проверка наличия Telegram WebApp API
   if (window.Telegram && window.Telegram.WebApp) {
+    console.log('Telegram WebApp API доступен');
+
     const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
+    console.log('initDataUnsafe:', initDataUnsafe);
 
     // Проверка наличия данных пользователя
     if (initDataUnsafe && initDataUnsafe.user) {
       const user = initDataUnsafe.user;
+      console.log('User:', user);
+
       const userInfoElement = document.getElementById('userInfo');
 
       // Формирование строки с именем и фамилией пользователя
@@ -17,8 +22,21 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('userInfo').textContent = 'Данные пользователя недоступны';
       console.log('Данные пользователя недоступны');
     }
+
+    // Сообщаем Telegram, что мини-приложение готово
+    window.Telegram.WebApp.ready();
   } else {
     console.error('Telegram WebApp API не доступен');
+
+    // Эмуляция данных для локального тестирования
+    const userInfoElement = document.getElementById('userInfo');
+    const simulatedUser = {
+      first_name: 'Тест',
+      last_name: 'Пользователь'
+    };
+
+    const fullName = [simulatedUser.first_name, simulatedUser.last_name].filter(Boolean).join(' ');
+    userInfoElement.textContent = `Пользователь: ${fullName}`;
   }
 
   // Ваш текущий код для обработки кликов
