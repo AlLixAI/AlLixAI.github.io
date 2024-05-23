@@ -9,12 +9,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Функция для отправки запроса на сервер
   function sendClickRequest() {
-    fetch('http://your-server-url.com/update-clicks', {
+    fetch('http://192.168.0.13:5000/update_clicks', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ telegramID: window.Telegram.WebApp.initDataUnsafe.user.id, clicks: score })
+      body: JSON.stringify({ telegram_id: window.Telegram.WebApp.initDataUnsafe.user.id })
     })
     .then(response => {
       if (!response.ok) {
