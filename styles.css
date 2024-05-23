@@ -12,7 +12,7 @@ body {
 }
 
 .gray-background {
-  background-color: #f0f0f0; /* Серый цвет фона */
+  background-color: var(--tg-color-scheme == "dark" ? #333333 : #f0f0f0); /* Используем тернарный оператор для определения цвета фона в зависимости от цветовой схемы */
 }
 
 .container {
