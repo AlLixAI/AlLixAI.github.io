@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.error('Ошибка:', error);
     });
   }
-  sendClickRequest()
+
   // Обработчик клика по кнопке
   clickButton.addEventListener('click', function() {
     score++;
