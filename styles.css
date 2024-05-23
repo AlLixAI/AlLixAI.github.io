@@ -7,9 +7,12 @@ html {
 body {
   overflow: hidden;
   position: fixed;
-  background-color: #f0f0f0; /* Серый цвет фона */
   margin: 0;
   padding: 0;
+}
+
+.gray-background {
+  background-color: #f0f0f0; /* Серый цвет фона */
 }
 
 .container {
