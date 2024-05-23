@@ -50,18 +50,10 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Предотвращение увеличения масштаба при двойном тапе
-  document.addEventListener('touchstart', function(event) {
+  clickButton.addEventListener('touchstart', function(event) {
     if (event.touches.length > 1) {
       event.preventDefault();
     }
   }, { passive: false });
 
-  var lastTouchEnd = 0;
-  document.addEventListener('touchend', function(event) {
-    var now = (new Date()).getTime();
-    if (now - lastTouchEnd <= 300) {
-      event.preventDefault();
-    }
-    lastTouchEnd = now;
-  }, false);
 });
