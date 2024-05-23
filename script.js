@@ -50,9 +50,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
       const user = window.Telegram.WebApp.initDataUnsafe.user;
       // Формирование строки с именем и фамилией пользователя
-      const fullName = [user.first_name, user.last_name].filter(Boolean).join(' ');
+      const fullName = (user.first_name || '') + ' ' + (user.last_name || '');
       // Обновление информации о пользователе
-      userInfoElement.textContent = `Пользователь: ${fullName}`;
+      userInfoElement.textContent = `Пользователь: ${fullName.trim()}`;
     } else {
       userInfoElement.textContent = 'Данные пользователя недоступны';
       console.error('Данные пользователя недоступны');
