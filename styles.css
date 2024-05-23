@@ -7,10 +7,6 @@ html {
 body {
   overflow: hidden;
   position: fixed;
-}
-
-body {
-  font-family: Arial, sans-serif;
   background-color: #f0f0f0; /* Серый цвет фона */
   margin: 0;
   padding: 0;
@@ -36,4 +32,5 @@ button:hover {
 
 p {
   font-size: 18px;
+  text-align: center; /* Центрируем текст */
 }
