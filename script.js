@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Предотвращение увеличения масштаба при двойном тапе
-  clickButton.addEventListener('touchstart', function(event) {
+  clickButton.addEventListener('touchmove', function(event) {
     if (event.touches.length > 1) {
       event.preventDefault();
     }
