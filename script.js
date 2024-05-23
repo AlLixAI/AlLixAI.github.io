@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+  // Установка цвета фона приложения
+  Telegram.WebApp.setBackgroundColor('#f0f0f0'); // Установка серого цвета фона
+
   // Проверка наличия Telegram WebApp API
   if (window.Telegram && window.Telegram.WebApp) {
     console.log('Telegram WebApp API доступен');
