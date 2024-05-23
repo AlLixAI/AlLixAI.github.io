@@ -2,10 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Кликер</title>
   <link rel="stylesheet" href="styles.css">
   <script src="https://telegram.org/js/telegram-web-app.js"></script> <!-- Подключение Telegram WebApp API -->
+  <style>
+    /* Отключение выделения текста и касания */
+    body {
+      -webkit-user-select: none; /* Safari */
+      -ms-user-select: none; /* IE 10+ and Edge */
+      user-select: none; /* Standard syntax */
+      touch-action: manipulation; /* Отключение двойного тапа */
+    }
+
+    button {
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* Отключение выделения кнопок */
+    }
+  </style>
 </head>
 <body>
   <div class="container">
