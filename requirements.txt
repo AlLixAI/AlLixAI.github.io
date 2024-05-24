@@ -1,4 +1,0 @@
-Flask==3.0.3
-psycopg2==2.9.9
-pyOpenSSL==24.1.0
-pyOpenSSL==24.1.0
