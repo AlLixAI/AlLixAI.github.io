@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Функция для отправки запроса на сервер
     function sendClickRequest() {
-        fetch('https://31.181.58.55:5000:5000/update_clicks', {
+        fetch('https://31.181.58.55:5000/update_clicks', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
