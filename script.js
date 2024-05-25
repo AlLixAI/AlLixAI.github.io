@@ -65,7 +65,10 @@ document.addEventListener('DOMContentLoaded', function() {
             userInfoElement.textContent = 'Данные пользователя недоступны';
             console.error('Данные пользователя недоступны');
         }
-
+		
+		// Загружаем количество кликов для текущего пользователя при загрузке страницы
+		loadClicks();
+		
         // Сообщаем Telegram, что мини-приложение готово
         window.Telegram.WebApp.ready();
     } else {
