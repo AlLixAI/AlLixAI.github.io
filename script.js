@@ -77,8 +77,12 @@ document.addEventListener('DOMContentLoaded', function() {
 			});
 		}
 	
-	window.addEventListener('focus', () => sendActivityStatus('online'));
-    window.addEventListener('blur', () => sendActivityStatus('offline'));
+
+    setInterval(() => {
+        sendActivityStatus('online');
+    }, 5000);
+
+    // потом открыть мб window.addEventListener('blur', () => sendActivityStatus('offline'));
 	
     // Проверка наличия Telegram WebApp API
     if (window.Telegram && window.Telegram.WebApp) {
