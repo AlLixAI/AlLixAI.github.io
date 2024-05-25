@@ -25,30 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Функция для отправки запроса на сервер при клике
-    function sendClickRequest() {
-        fetch('https://03a0-46-158-159-62.ngrok-free.app/update_clicks', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ telegram_id: userId })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Ошибка при отправке запроса');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Обновляем счетчик кликов на фронтенде
-            scoreDisplay.textContent = data.clicks;
-        })
-        .catch(error => {
-            console.error('Ошибка:', error);
-        });
-    }
-
     // Загружаем количество кликов для текущего пользователя при загрузке страницы
     loadClicks();
 
@@ -73,16 +49,4 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         console.error('Telegram WebApp API не доступен');
     }
-
-    // Обработчик клика по кнопке
-    document.getElementById('clickButton').addEventListener('click', function() {
-        sendClickRequest();
-    });
-
-    // Предотвращение увеличения масштаба при двойном тапе
-    document.getElementById('clickButton').addEventListener('touchmove', function(event) {
-        if (event.touches.length > 1) {
-            event.preventDefault();
-        }
-    }, { passive: false });
 });
