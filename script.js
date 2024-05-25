@@ -10,49 +10,43 @@ document.addEventListener('DOMContentLoaded', function() {
 	var shrimpCount = 0;
 
     // Функция для загрузки количества кликов с сервера
-	function loadClicks() {
-		fetch('https://03a0-46-158-159-62.ngrok-free.app/get_clicks', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ telegram_id: userId })
-		})
-		.then(response => {
-			if (!response.ok) {
-				throw new Error('Ошибка при загрузке кликов');
-			}
-			return response.json();
-		})
-		.then(data => {
-			currentScore = data.clicks
-			scoreDisplay.textContent = currentScore;
-		})
-		.catch(error => {
-			console.error('Ошибка при загрузке кликов:', error.message);
-		});
-	}
+    async function loadClicks() {
+        try {
+            const response = await fetch('https://03a0-46-158-159-62.ngrok-free.app/get_clicks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ telegram_id: userId })
+            });
+            if (!response.ok) {
+                throw new Error('Ошибка при загрузке кликов');
+            }
+            const data = await response.json();
+            currentScore = data.clicks;
+            scoreDisplay.textContent = currentScore;
+        } catch (error) {
+            console.error('Ошибка при загрузке кликов:', error.message);
+        }
+    }
 
-	function sendScoreToServer() {
-        fetch('https://03a0-46-158-159-62.ngrok-free.app/update_clicks', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ telegram_id: userId, clicks: currentScore })
-        })
-        .then(response => {
+    async function sendScoreToServer() {
+        try {
+            const response = await fetch('https://03a0-46-158-159-62.ngrok-free.app/update_clicks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ telegram_id: userId, clicks: currentScore })
+            });
             if (!response.ok) {
                 throw new Error('Ошибка при отправке текущих очков');
             }
-            return response.json();
-        })
-        .then(data => {
+            await response.json();
             console.log('Текущие очки отправлены на сервер');
-        })
-        .catch(error => {
+        } catch (error) {
             console.error('Ошибка при отправке текущих очков:', error.message);
-        });
+        }
     }
 
     // Функция для отправки запроса на сервер при клике
@@ -61,27 +55,24 @@ document.addEventListener('DOMContentLoaded', function() {
         scoreDisplay.textContent = currentScore;
     }
 	
-	function sendActivityStatus(status) {
-			fetch('https://03a0-46-158-159-62.ngrok-free.app/update_activity', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({ telegram_id: userId, status: status })
-			})
-			.then(response => {
-				if (!response.ok) {
-					throw new Error('Ошибка при отправке статуса активности');
-				}
-				return response.json();
-			})
-			.then(data => {
-				console.log(`Статус активности: ${status}`);
-			})
-			.catch(error => {
-				console.error('Ошибка при отправке статуса активности:', error.message);
-			});
-		}
+    async function sendActivityStatus(status) {
+        try {
+            const response = await fetch('https://03a0-46-158-159-62.ngrok-free.app/update_activity', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ telegram_id: userId, status: status })
+            });
+            if (!response.ok) {
+                throw new Error('Ошибка при отправке статуса активности');
+            }
+            await response.json();
+            console.log(`Статус активности: ${status}`);
+        } catch (error) {
+            console.error('Ошибка при отправке статуса активности:', error.message);
+        }
+    }
 	
 	function update_user_clicks() {
 		fetch('https://03a0-46-158-159-62.ngrok-free.app/get_user_data', {
@@ -186,11 +177,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    setInterval(() => {
-		sendScoreToServer();
-		loadClicks();
-		sendActivityStatus('online');
-    }, 5000);
+	async function updateServer() {
+		try {
+			await sendScoreToServer();
+			await loadClicks();
+			await sendActivityStatus('online');
+		} catch (error) {
+			console.error('Ошибка при обновлении сервера:', error);
+		}
+	}
+
+	setInterval(() => {
+		updateServer();
+	}, 5000);
 
     // потом открыть мб window.addEventListener('blur', () => sendActivityStatus('offline'));
 	
