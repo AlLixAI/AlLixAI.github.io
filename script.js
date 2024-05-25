@@ -77,6 +77,29 @@ document.addEventListener('DOMContentLoaded', function() {
 			});
 		}
 	
+	function update_user_clicks() {
+		fetch('https://03a0-46-158-159-62.ngrok-free.app/get_clicks', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ telegram_id: userId })
+		})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('Ошибка при обновлении кликов пользователя');
+				}
+				return response.json();
+			})
+			.then(data => {
+				// Обновляем счетчик кликов на фронтенде
+				loadClicks();
+			})
+			.catch(error => {
+				console.error('Ошибка при обновлении кликов пользователя:', error.message);
+			});
+	}
+	
 	function buyShrimp() {
 		// Отправка запроса на покупку креветок
 		fetch('https://03a0-46-158-159-62.ngrok-free.app/buy_shrimp', {
@@ -157,6 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Загружаем количество кликов для текущего пользователя при загрузке страницы
+		update_user_clicks()
         loadClicks();
 		loadShrimpCount();
 
