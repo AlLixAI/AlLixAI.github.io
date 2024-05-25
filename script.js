@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     setInterval(() => {
-		sendScoreToServer()
+		sendScoreToServer();
 		loadClicks();
         sendActivityStatus('online');
     }, 5000);
