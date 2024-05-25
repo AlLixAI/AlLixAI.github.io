@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var scoreDisplay = document.getElementById('score');
     var userInfoElement = document.getElementById('userInfo');
     var userId = window.Telegram.WebApp.initDataUnsafe.user.id;
+	var currentScore = 0;
 
     // Функция для загрузки количества кликов с сервера
 	function loadClicks() {
@@ -23,36 +24,40 @@ document.addEventListener('DOMContentLoaded', function() {
 			return response.json();
 		})
 		.then(data => {
-			scoreDisplay.textContent = data.clicks;
+			currentScore = data.clicks
+			scoreDisplay.textContent = currentScore;
 		})
 		.catch(error => {
 			console.error('Ошибка при загрузке кликов:', error.message);
 		});
 	}
 
-
-    // Функция для отправки запроса на сервер при клике
-    function sendClickRequest() {
+	function sendScoreToServer() {
         fetch('https://03a0-46-158-159-62.ngrok-free.app/update_clicks', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ telegram_id: userId })
+            body: JSON.stringify({ telegram_id: userId, clicks: currentScore })
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Ошибка при отправке запроса');
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Обновляем счетчик кликов на фронтенде
-                scoreDisplay.textContent = data.clicks;
-            })
-            .catch(error => {
-                console.error('Ошибка:', error);
-            });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Ошибка при отправке текущих очков');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Текущие очки отправлены на сервер');
+        })
+        .catch(error => {
+            console.error('Ошибка при отправке текущих очков:', error.message);
+        });
+    }
+
+    // Функция для отправки запроса на сервер при клике
+    function sendClickRequest() {
+        currentScore += 1;
+        scoreDisplay.textContent = currentScore;
     }
 	
 	function sendActivityStatus(status) {
@@ -173,7 +178,8 @@ document.addEventListener('DOMContentLoaded', function() {
         clearInterval(window.autoIncrementInterval); // Очищаем предыдущий интервал, если он есть
         window.autoIncrementInterval = setInterval(() => {
             const increment = shrimpCount * 0.5;
-            scoreDisplay.textContent = Math.round(parseInt(scoreDisplay.textContent) + increment);
+			currentScore = Math.round(currentScore + increment);
+            scoreDisplay.textContent = currentScore;
         }, 100); // 1000 мс = 1 секунда
     }
 
@@ -181,6 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(() => {
 		loadClicks();
         sendActivityStatus('online');
+		sendScoreToServer();
     }, 5000);
 
     // потом открыть мб window.addEventListener('blur', () => sendActivityStatus('offline'));
