@@ -162,11 +162,20 @@ document.addEventListener('DOMContentLoaded', function() {
 			// Обновляем количество креветок на фронтенде
 			document.getElementById('shrimpCount').textContent = data.c_shrimp;
 			updateShrimpPrice(data.c_shrimp);
+			startAutoIncrement(data.c_shrimp);
 		})
 		.catch(error => {
 			console.error('Ошибка при загрузке количества креветок:', error.message);
 		});
 	}
+
+    function startAutoIncrement(shrimpCount) {
+        clearInterval(window.autoIncrementInterval); // Очищаем предыдущий интервал, если он есть
+        window.autoIncrementInterval = setInterval(() => {
+            const increment = shrimpCount * 5;
+            scoreDisplay.textContent = parseInt(scoreDisplay.textContent) + increment;
+        }, 1000); // 1000 мс = 1 секунда
+    }
 
 
     setInterval(() => {
