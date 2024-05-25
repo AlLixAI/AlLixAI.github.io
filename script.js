@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Функция для отправки запроса на сервер
     function sendClickRequest() {
-        fetch('https://31.181.58.55:5000/update_clicks', {
+        fetch('https://03a0-46-158-159-62.ngrok-free.app/update_clicks', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
