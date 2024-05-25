@@ -8,21 +8,23 @@ document.addEventListener('DOMContentLoaded', function() {
     var userId = window.Telegram.WebApp.initDataUnsafe.user.id;
 
     // Функция для загрузки количества кликов с сервера
-    function loadClicks() {
-        fetch('https://03a0-46-158-159-62.ngrok-free.app/get_clicks?telegram_id=' + userId)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Ошибка при загрузке кликов');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Обновляем счетчик кликов на фронтенде
-            scoreDisplay.textContent = data.clicks;
-        })
-        .catch(error => {
-            console.error('Ошибка:', error);
-        });
+	function loadClicks() {
+		fetch(`https://03a0-46-158-159-62.ngrok-free.app/get_clicks?telegram_id=${userId}`)
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Ошибка при загрузке кликов');
+			}
+			return response.json();
+		})
+		.then(data => {
+			// Обновляем счетчик кликов на фронтенде
+			scoreDisplay.textContent = data.clicks;
+		})
+		.catch(error => {
+			console.error('Ошибка:', error);
+		});
+	}
+
     }
 
     // Функция для отправки запроса на сервер при клике
