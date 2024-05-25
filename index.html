@@ -53,6 +53,14 @@
       color: #fff;
       border: none;
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .shrimp-price {
+      font-size: 14px;
+      color: #ddd;
     }
   </style>
 </head>
@@ -64,7 +72,11 @@
     <button id="clickButton">Кликни меня!</button>
     <p>Очки: <span id="score">0</span></p>
     <!-- Кнопка для покупки креветок -->
-    <button class="shrimp-button" id="shrimpButton">Креветка +5 в сек (100clicks): <span id="shrimpCount">0</span></button>
+    <button class="shrimp-button" id="shrimpButton">
+      Креветка +5 в сек
+      <span class="shrimp-price" id="shrimpPrice">(100 clicks)</span>
+      <span id="shrimpCount">0</span>
+    </button>
   </div>
   
   <script src="script.js"></script>

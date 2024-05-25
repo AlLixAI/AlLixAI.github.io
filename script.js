@@ -100,6 +100,17 @@ document.addEventListener('DOMContentLoaded', function() {
 			});
 	}
 	
+	    // Функция для вычисления цены креветки
+    function calculateShrimpPrice(count) {
+        return Math.round(100 * Math.pow(2.72, count));
+    }
+
+    // Функция для обновления цены креветки в интерфейсе
+    function updateShrimpPrice(count) {
+        const price = calculateShrimpPrice(count);
+        document.getElementById('shrimpPrice').textContent = `(${price} clicks)`;
+    }
+	
 	function buyShrimp() {
 		// Отправка запроса на покупку креветок
 		fetch('https://03a0-46-158-159-62.ngrok-free.app/buy_shrimp', {
@@ -126,6 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			console.log('Куплено креветок:', data.amount);
 			loadClicks();
 			document.getElementById('shrimpCount').textContent = data.c_shrimp;
+			updateShrimpPrice(data.c_shrimp);
 		})
 		.catch(error => {
 			console.error('Ошибка при покупке креветок:', error.message);
@@ -149,6 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		.then(data => {
 			// Обновляем количество креветок на фронтенде
 			document.getElementById('shrimpCount').textContent = data.c_shrimp;
+			updateShrimpPrice(data.c_shrimp);
 		})
 		.catch(error => {
 			console.error('Ошибка при загрузке количества креветок:', error.message);
