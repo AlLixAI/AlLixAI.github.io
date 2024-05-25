@@ -141,31 +141,28 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	}
 
-	function loadShrimpCount() {
-		fetch('https://03a0-46-158-159-62.ngrok-free.app/update_shrimp', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ telegram_id: userId })
-		})
-		.then(response => {
-			if (!response.ok) {
-				throw new Error('Ошибка при загрузке количества креветок');
-			}
-			return response.json();
-		})
-		.then(data => {
-			// Обновляем количество креветок на фронтенде
-			shrimpCount = data.c_shrimp
-			document.getElementById('shrimpCount').textContent = shrimpCount;
-			updateShrimpPrice(shrimpCount);
-			startAutoIncrement(shrimpCount);
-		})
-		.catch(error => {
-			console.error('Ошибка при загрузке количества креветок:', error.message);
-		});
-	}
+	async function loadShrimpCount() {
+    try {
+        const response = await fetch('https://03a0-46-158-159-62.ngrok-free.app/update_shrimp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ telegram_id: userId })
+        });
+        if (!response.ok) {
+            throw new Error('Ошибка при загрузке количества креветок');
+        }
+        const data = await response.json();
+        shrimpCount = data.c_shrimp;
+        document.getElementById('shrimpCount').textContent = shrimpCount;
+        updateShrimpPrice(shrimpCount);
+        startAutoIncrement(shrimpCount);
+    } catch (error) {
+        console.error('Ошибка при загрузке количества креветок:', error.message);
+    }
+}
+
 
     function startAutoIncrement(shrimpCount) {
         clearInterval(window.autoIncrementInterval); // Очищаем предыдущий интервал, если он есть
@@ -181,6 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		try {
 			await sendScoreToServer();
 			await loadClicks();
+			await loadShrimpCount();
 			await sendActivityStatus('online');
 		} catch (error) {
 			console.error('Ошибка при обновлении сервера:', error);
