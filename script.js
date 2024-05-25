@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Переменные для отслеживания кликов и ID пользователя
     var scoreDisplay = document.getElementById('score');
     var userInfoElement = document.getElementById('userInfo');
-    var userId = window.Telegram.WebApp.initDataUnsafe.user.id;
+    var userId = 123456789; // Замените на актуальный ID пользователя
 
     // Функция для загрузки количества кликов с сервера
     function loadClicks() {
