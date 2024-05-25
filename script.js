@@ -172,9 +172,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function startAutoIncrement(shrimpCount) {
         clearInterval(window.autoIncrementInterval); // Очищаем предыдущий интервал, если он есть
         window.autoIncrementInterval = setInterval(() => {
-            const increment = shrimpCount * 5;
+            const increment = shrimpCount * 0.5;
             scoreDisplay.textContent = parseInt(scoreDisplay.textContent) + increment;
-        }, 1000); // 1000 мс = 1 секунда
+        }, 100); // 1000 мс = 1 секунда
     }
 
 
