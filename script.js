@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var userInfoElement = document.getElementById('userInfo');
     var userId = window.Telegram.WebApp.initDataUnsafe.user.id;
 	var currentScore = 0;
+	var shrimpCount = 0;
 
     // Функция для загрузки количества кликов с сервера
 	function loadClicks() {
@@ -165,9 +166,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		})
 		.then(data => {
 			// Обновляем количество креветок на фронтенде
-			document.getElementById('shrimpCount').textContent = data.c_shrimp;
-			updateShrimpPrice(data.c_shrimp);
-			startAutoIncrement(data.c_shrimp);
+			shrimpCount = data.c_shrimp
+			document.getElementById('shrimpCount').textContent = shrimpCount;
+			updateShrimpPrice(shrimpCount);
+			startAutoIncrement(shrimpCount);
 		})
 		.catch(error => {
 			console.error('Ошибка при загрузке количества креветок:', error.message);
@@ -186,6 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     setInterval(() => {
 		sendScoreToServer();
+		loadClicks();
 		sendActivityStatus('online');
     }, 5000);
 
