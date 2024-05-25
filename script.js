@@ -109,6 +109,30 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	}
 
+	function loadShrimpCount() {
+		fetch('https://03a0-46-158-159-62.ngrok-free.app/get_shrimp_count', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ telegram_id: userId })
+		})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Ошибка при загрузке количества креветок');
+			}
+			return response.json();
+		})
+		.then(data => {
+			// Обновляем количество креветок на фронтенде
+			shrimpCountElement.textContent = data.c_shrimp;
+		})
+		.catch(error => {
+			console.error('Ошибка при загрузке количества креветок:', error.message);
+		});
+	}
+		
+
     setInterval(() => {
 		loadClicks();
         sendActivityStatus('online');
@@ -134,6 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Загружаем количество кликов для текущего пользователя при загрузке страницы
         loadClicks();
+		loadShrimpCount();
 
         // Сообщаем Telegram, что мини-приложение готово
         window.Telegram.WebApp.ready();
