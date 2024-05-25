@@ -185,9 +185,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     setInterval(() => {
+		sendScoreToServer()
 		loadClicks();
         sendActivityStatus('online');
-		sendScoreToServer();
     }, 5000);
 
     // потом открыть мб window.addEventListener('blur', () => sendActivityStatus('offline'));
