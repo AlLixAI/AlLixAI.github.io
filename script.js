@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	
 	function update_user_clicks() {
-		fetch('https://03a0-46-158-159-62.ngrok-free.app/get_clicks', {
+		fetch('https://03a0-46-158-159-62.ngrok-free.app/get_user_data', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
