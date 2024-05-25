@@ -125,13 +125,13 @@ document.addEventListener('DOMContentLoaded', function() {
 		})
 		.then(data => {
 			// Обновляем количество креветок на фронтенде
-			shrimpCountElement.textContent = data.c_shrimp;
+			document.getElementById('shrimpCount').textContent = data.c_shrimp;
 		})
 		.catch(error => {
 			console.error('Ошибка при загрузке количества креветок:', error.message);
 		});
 	}
-		
+
 
     setInterval(() => {
 		loadClicks();
