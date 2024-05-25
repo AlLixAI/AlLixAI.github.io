@@ -9,24 +9,47 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Функция для загрузки количества кликов с сервера
     function loadClicks() {
-        fetch('https://03a0-46-158-159-62.ngrok-free.app/get_clicks?telegram_id=' + userId)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Ошибка при загрузке кликов');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Обновляем счетчик кликов на фронтенде
-            scoreDisplay.textContent = data.clicks;
-        })
-        .catch(error => {
-            console.error('Ошибка:', error);
-        });
-    }
+    fetch('https://03a0-46-158-159-62.ngrok-free.app/get_clicks?telegram_id=' + userId)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Ошибка при загрузке кликов');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Обновляем счетчик кликов на фронтенде
+        scoreDisplay.textContent = data.clicks;
 
-    // Загружаем количество кликов для текущего пользователя при загрузке страницы
-    loadClicks();
+        // Добавляем обработчик события клика для кнопки
+        document.getElementById('clickButton').addEventListener('click', function() {
+            // Отправляем запрос на сервер для обновления счетчика кликов
+            fetch('https://03a0-46-158-159-62.ngrok-free.app/update_clicks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ telegram_id: userId })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка при обновлении кликов');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Обновляем счетчик кликов на фронтенде после успешного обновления
+                scoreDisplay.textContent = data.clicks;
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+            });
+        });
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+    });
+}
+
 
     // Проверка наличия Telegram WebApp API
     if (window.Telegram && window.Telegram.WebApp) {
@@ -46,6 +69,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Сообщаем Telegram, что мини-приложение готово
         window.Telegram.WebApp.ready();
+
+        // Загружаем количество кликов для текущего пользователя при загрузке страницы
+        loadClicks();
     } else {
         console.error('Telegram WebApp API не доступен');
     }
