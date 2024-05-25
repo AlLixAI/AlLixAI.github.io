@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Функция для отправки запроса на сервер при клике
-    function sendClickRequest() {
+    function handleClick() {
         currentScore += 1;
         scoreDisplay.textContent = currentScore;
     }
@@ -177,17 +177,16 @@ document.addEventListener('DOMContentLoaded', function() {
     function startAutoIncrement(shrimpCount) {
         clearInterval(window.autoIncrementInterval); // Очищаем предыдущий интервал, если он есть
         window.autoIncrementInterval = setInterval(() => {
-            const increment = shrimpCount * 0.5;
+            const increment = shrimpCount * 5;
 			currentScore = Math.round(currentScore + increment);
             scoreDisplay.textContent = currentScore;
-        }, 100); // 1000 мс = 1 секунда
+        }, 1000); // 1000 мс = 1 секунда
     }
 
 
     setInterval(() => {
 		sendScoreToServer();
-		loadClicks();
-        sendActivityStatus('online');
+		sendActivityStatus('online');
     }, 5000);
 
     // потом открыть мб window.addEventListener('blur', () => sendActivityStatus('offline'));
@@ -209,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Загружаем количество кликов для текущего пользователя при загрузке страницы
-		update_user_clicks()
+		update_user_clicks();
         loadClicks();
 		loadShrimpCount();
 
@@ -221,7 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Обработчик клика по кнопке
     document.getElementById('clickButton').addEventListener('click', function() {
-        sendClickRequest();
+        handleClick();
     });
 
     document.getElementById('shrimpButton').addEventListener('click', function() {
