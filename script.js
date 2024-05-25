@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ telegram_id: userId })
+            data: JSON.stringify({ telegram_id: userId })
         })
         .then(response => {
             if (!response.ok) {
