@@ -77,8 +77,40 @@ document.addEventListener('DOMContentLoaded', function() {
 			});
 		}
 	
+	function buyShrimp() {
+		// Отправка запроса на покупку креветок
+		fetch('https://03a0-46-158-159-62.ngrok-free.app/buy_shrimp', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ telegram_id: userId })
+		})
+		.then(response => {
+			if (!response.ok) {
+				// Если покупка не удалась, делаем кнопку красной
+				document.getElementById('shrimpButton').style.backgroundColor = '#dc3545';
+				// Через 1 секунду возвращаем кнопку к зеленому цвету
+				setTimeout(() => {
+					document.getElementById('shrimpButton').style.backgroundColor = '#28a745';
+				}, 1000);
+				throw new Error('Ошибка при покупке креветок');
+			}
+			return response.json();
+		})
+		.then(data => {
+			// Если покупка прошла успешно, обновляем количество креветок и очков
+			console.log('Куплено креветок:', data.amount);
+			document.getElementById('score').textContent = data.clicks;
+			document.getElementById('shrimpCount').textContent = data.shrimpCount;
+		})
+		.catch(error => {
+			console.error('Ошибка при покупке креветок:', error.message);
+		});
+	}
 
     setInterval(() => {
+		loadClicks();
         sendActivityStatus('online');
     }, 5000);
 
@@ -113,6 +145,11 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('clickButton').addEventListener('click', function() {
         sendClickRequest();
     });
+
+    document.getElementById('shrimpButton').addEventListener('click', function() {
+        buyShrimp();
+    });
+
 
     // Предотвращение увеличения масштаба при двойном тапе
     document.getElementById('clickButton').addEventListener('touchmove', function(event) {

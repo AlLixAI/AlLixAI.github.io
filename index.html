@@ -44,6 +44,16 @@
       font-size: 18px;
       text-align: center; /* Центрируем текст */
     }
+
+    .shrimp-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body class="gray-background">
@@ -53,6 +63,8 @@
     <p>Кликни по кнопке, чтобы набрать очки!</p>
     <button id="clickButton">Кликни меня!</button>
     <p>Очки: <span id="score">0</span></p>
+    <!-- Кнопка для покупки креветок -->
+    <button class="shrimp-button" id="shrimpButton">Креветка +5 в сек (100clicks): <span id="shrimpCount">0</span></button>
   </div>
   
   <script src="script.js"></script>
