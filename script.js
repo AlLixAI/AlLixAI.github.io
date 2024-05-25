@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            data: JSON.stringify({ telegram_id: userId })
+            body: JSON.stringify({ telegram_id: userId })
         })
         .then(response => {
             if (!response.ok) {
@@ -49,8 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Загружаем количество кликов для текущего пользователя при загрузке страницы
-    loadClicks();
 
     // Проверка наличия Telegram WebApp API
     if (window.Telegram && window.Telegram.WebApp) {
