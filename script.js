@@ -25,8 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	}
 
-    }
-
     // Функция для отправки запроса на сервер при клике
     function sendClickRequest() {
         fetch('https://03a0-46-158-159-62.ngrok-free.app/update_clicks', {
