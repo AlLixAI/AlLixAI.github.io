@@ -54,8 +54,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Ошибка:', error);
             });
     }
-
-
+	
+	function sendActivityStatus(status) {
+			fetch('https://03a0-46-158-159-62.ngrok-free.app/update_activity', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ telegram_id: userId, status: status })
+			})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('Ошибка при отправке статуса активности');
+				}
+				return response.json();
+			})
+			.then(data => {
+				console.log(`Статус активности: ${status}`);
+			})
+			.catch(error => {
+				console.error('Ошибка при отправке статуса активности:', error.message);
+			});
+		}
+	
+	window.addEventListener('focus', () => sendActivityStatus('online'));
+    window.addEventListener('blur', () => sendActivityStatus('offline'));
+	
     // Проверка наличия Telegram WebApp API
     if (window.Telegram && window.Telegram.WebApp) {
         console.log('Telegram WebApp API доступен');
