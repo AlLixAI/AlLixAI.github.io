@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
 	function loadShrimpCount() {
-		fetch('https://03a0-46-158-159-62.ngrok-free.app/get_shrimp_count', {
+		fetch('https://03a0-46-158-159-62.ngrok-free.app/update_shrimp', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
