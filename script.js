@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 scoreDisplay.textContent = data.clicks;
             })
             .catch(error => {
-                console.error('Ошибка:', error);
+                console.error('Ошибка:', error.message);
             });
     }
 
