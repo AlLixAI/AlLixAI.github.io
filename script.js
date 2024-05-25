@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		.then(data => {
 			// Если покупка прошла успешно, обновляем количество креветок и очков
 			console.log('Куплено креветок:', data.amount);
-			document.getElementById('score').textContent = data.clicks;
+			loadClicks();
 			document.getElementById('shrimpCount').textContent = data.c_shrimp;
 		})
 		.catch(error => {
