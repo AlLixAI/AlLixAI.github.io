@@ -37,6 +37,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+	function calculateShrimpPrice(shrimpCount) {
+		// Рассчитываем цену в зависимости от количества креветок
+		{
+			return Math.round(100 * Math.pow(2.72, shrimpCount)); // Примерная логика, нужно заменить на вашу
+		}
+	}
+
 	function buyShrimp() {
 
 		update_clicks_on_server();
@@ -67,13 +74,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	}
 	
-	function calculateShrimpPrice(shrimpCount) {
-		// Рассчитываем цену в зависимости от количества креветок
-		{
-			return Math.round(100 * Math.pow(2.72, shrimpCount)); // Примерная логика, нужно заменить на вашу
-		}
-	}
-
 	function updateInterface(data) {
 		// Обновляем элементы интерфейса на основе полученных данных
 		document.getElementById('score').innerText = data.clicks;
