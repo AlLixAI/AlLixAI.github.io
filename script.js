@@ -60,12 +60,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		.then(response => response.json())
 		.then(data => {
 			// Получаем актуальное количество кликов и креветок из ответа сервера
-			clicks = data.clicks;
+			currentScore = data.clicks;
 			shrimpCount = data.c_shrimp;
 	
-			console.log('Успешно куплено. Количество кликов:', clicks, 'Количество креветок:', c_shrimp);
+			console.log('Успешно куплено. Количество кликов:', currentScore, 'Количество креветок:', c_shrimp);
 			
-			document.getElementById('score').innerText = clicks;
+			document.getElementById('score').innerText = currentScore;
 			document.getElementById('shrimpCount').innerText = shrimpCount;
 			document.getElementById('shrimpPrice').innerText = calculateShrimpPrice(shrimpCount);
 		})
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	function updateInterface(data) {
 		// Обновляем элементы интерфейса на основе полученных данных
-		clicks = data.clicks
+		currentScore = data.clicks
 		shrimpCount = data.c_shrimp
 		document.getElementById('score').innerText = data.clicks;
 		document.getElementById('shrimpCount').innerText = data.c_shrimp;
