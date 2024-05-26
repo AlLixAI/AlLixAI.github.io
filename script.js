@@ -74,6 +74,39 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 
+	function updateInterface(data) {
+		// Обновляем элементы интерфейса на основе полученных данных
+		document.getElementById('score').innerText = data.clicks;
+		document.getElementById('shrimpCount').innerText = data.c_shrimp;
+		document.getElementById('shrimpPrice').innerText = calculateShrimpPrice(data.c_shrimp);
+		// Другие обновления интерфейса...
+	}
+
+	function get_all_data() {
+		fetch('https://217d-46-158-159-62.ngrok-free.app/get_all_data', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				telegram_id: userId
+			})
+		})
+		.then(response => response.json())
+		.then(data => {
+			// Обработка полученных данных
+			console.log('Полученные данные:', data);
+			// Обновление интерфейса на основе полученных данных
+			updateInterface(data);
+		})
+		.catch(error => {
+			console.error('Ошибка при получении данных:', error);
+		});
+	}
+
+		// Выполнение функции при загрузке страницы
+		get_all_data();
+	});
 
 	setInterval(update_clicks_on_server, 5000);
 
@@ -93,48 +126,12 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Данные пользователя недоступны');
         }
 
-		get_all_data()
         // Сообщаем Telegram, что мини-приложение готово
         window.Telegram.WebApp.ready();
+		get_all_data();
     } else {
         console.error('Telegram WebApp API не доступен');
     }
-
-	function updateInterface(data) {
-		// Обновляем элементы интерфейса на основе полученных данных
-		document.getElementById('score').innerText = data.clicks;
-		document.getElementById('shrimpCount').innerText = data.c_shrimp;
-		document.getElementById('shrimpPrice').innerText = calculateShrimpPrice(data.c_shrimp);
-		// Другие обновления интерфейса...
-	}
-
-	document.addEventListener('DOMContentLoaded', function() {
-		// Функция для получения актуальной информации с сервера
-		function get_all_data() {
-			fetch('https://217d-46-158-159-62.ngrok-free.app/get_all_data', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					telegram_id: userId
-				})
-			})
-			.then(response => response.json())
-			.then(data => {
-				// Обработка полученных данных
-				console.log('Полученные данные:', data);
-				// Обновление интерфейса на основе полученных данных
-				updateInterface(data);
-			})
-			.catch(error => {
-				console.error('Ошибка при получении данных:', error);
-			});
-		}
-	
-		// Выполнение функции при загрузке страницы
-		get_all_data();
-	});
 	
     // Обработчик клика по кнопке
     document.getElementById('clickButton').addEventListener('click', function() {
@@ -146,9 +143,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Предотвращение увеличения масштаба при двойном тапе
-    document.getElementById('clickButton').addEventListener('touchmove', function(event) {
-        if (event.touches.length > 1) {
-            event.preventDefault();
-        }
-    }, { passive: false });
-});
+	document.getElementById('clickButton').addEventListener('touchmove', function(event) {
+		if (event.touches.length > 1) {
+			event.preventDefault();
+		}
+	}, { passive: false });
+	
