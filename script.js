@@ -76,6 +76,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	function updateInterface(data) {
 		// Обновляем элементы интерфейса на основе полученных данных
+		clicks = data.clicks
+		shrimpCount = data.c_shrimp
 		document.getElementById('score').innerText = data.clicks;
 		document.getElementById('shrimpCount').innerText = data.c_shrimp;
 		document.getElementById('shrimpPrice').innerText = calculateShrimpPrice(data.c_shrimp);
