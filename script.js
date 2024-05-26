@@ -49,9 +49,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 	function buyShrimp() {
-
 		update_clicks_on_server();
-
+	
 		fetch('https://217d-46-158-159-62.ngrok-free.app/buy_shrimp', {
 			method: 'POST',
 			headers: {
@@ -61,7 +60,12 @@ document.addEventListener('DOMContentLoaded', function() {
 				telegram_id: userId
 			})
 		})
-		.then(response => response.json())
+		.then(response => {
+			if (!response.ok) {
+				return response.json().then(err => { throw new Error(err.error); });
+			}
+			return response.json();
+		})
 		.then(data => {
 			// Получаем актуальное количество кликов и креветок из ответа сервера
 			currentScore = data.clicks;
@@ -75,8 +79,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		})
 		.catch((error) => {
 			console.error('Ошибка при покупке:', error);
+			alert('Ошибка при покупке: ' + error.message);
 		});
 	}
+	
 	
 	function updateInterface(data) {
 		// Обновляем элементы интерфейса на основе полученных данных
