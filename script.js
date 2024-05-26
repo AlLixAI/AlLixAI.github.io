@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var currentScore = 0;
     var shrimpCount = 0;
     var click_ratio = 1;
+	var shrimpPrice = 100
 
     // Функция для увеличения количества кликов
     function click_calc() {
@@ -36,6 +37,44 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+	function buyShrimp() {
+
+		update_clicks_on_server();
+
+		fetch('https://217d-46-158-159-62.ngrok-free.app/buy_shrimp', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				telegram_id: userId
+			})
+		})
+		.then(response => response.json())
+		.then(data => {
+			// Получаем актуальное количество кликов и креветок из ответа сервера
+			clicks = data.clicks;
+			shrimpCount = data.c_shrimp;
+	
+			console.log('Успешно куплено. Количество кликов:', clicks, 'Количество креветок:', c_shrimp);
+			
+			document.getElementById('score').innerText = clicks;
+			document.getElementById('shrimpCount').innerText = shrimpCount;
+			document.getElementById('shrimpPrice').innerText = calculateShrimpPrice(shrimpCount);
+		})
+		.catch((error) => {
+			console.error('Ошибка при покупке:', error);
+		});
+	}
+	
+	function calculateShrimpPrice(shrimpCount) {
+		// Рассчитываем цену в зависимости от количества креветок
+		{
+			return Math.round(100 * Math.pow(2.72, shrimpCount)); // Примерная логика, нужно заменить на вашу
+		}
+	}
+
+
 	setInterval(update_clicks_on_server, 5000);
 
     // Проверка наличия Telegram WebApp API
@@ -54,12 +93,49 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Данные пользователя недоступны');
         }
 
+		get_all_data()
         // Сообщаем Telegram, что мини-приложение готово
         window.Telegram.WebApp.ready();
     } else {
         console.error('Telegram WebApp API не доступен');
     }
 
+	function updateInterface(data) {
+		// Обновляем элементы интерфейса на основе полученных данных
+		document.getElementById('score').innerText = data.clicks;
+		document.getElementById('shrimpCount').innerText = data.c_shrimp;
+		document.getElementById('shrimpPrice').innerText = calculateShrimpPrice(data.c_shrimp);
+		// Другие обновления интерфейса...
+	}
+
+	document.addEventListener('DOMContentLoaded', function() {
+		// Функция для получения актуальной информации с сервера
+		function get_all_data() {
+			fetch('https://217d-46-158-159-62.ngrok-free.app/get_all_data', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					telegram_id: userId
+				})
+			})
+			.then(response => response.json())
+			.then(data => {
+				// Обработка полученных данных
+				console.log('Полученные данные:', data);
+				// Обновление интерфейса на основе полученных данных
+				updateInterface(data);
+			})
+			.catch(error => {
+				console.error('Ошибка при получении данных:', error);
+			});
+		}
+	
+		// Выполнение функции при загрузке страницы
+		get_all_data();
+	});
+	
     // Обработчик клика по кнопке
     document.getElementById('clickButton').addEventListener('click', function() {
         click_calc();
