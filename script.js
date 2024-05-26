@@ -82,31 +82,27 @@ document.addEventListener('DOMContentLoaded', function() {
 		// Другие обновления интерфейса...
 	}
 
-	function get_all_data() {
-		fetch('https://217d-46-158-159-62.ngrok-free.app/get_all_data', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				telegram_id: userId
-			})
-		})
-		.then(response => response.json())
-		.then(data => {
-			// Обработка полученных данных
-			console.log('Полученные данные:', data);
-			// Обновление интерфейса на основе полученных данных
-			updateInterface(data);
-		})
-		.catch(error => {
-			console.error('Ошибка при получении данных:', error);
-		});
-	}
-
-		// Выполнение функции при загрузке страницы
-		get_all_data();
-	});
+    function get_all_data() {
+        fetch('https://217d-46-158-159-62.ngrok-free.app/get_all_data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                telegram_id: userId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Обработка полученных данных
+            console.log('Полученные данные:', data);
+            // Обновление интерфейса на основе полученных данных
+            updateInterface(data);
+        })
+        .catch(error => {
+            console.error('Ошибка при получении данных:', error);
+        });
+    }
 
 	setInterval(update_clicks_on_server, 5000);
 
@@ -148,4 +144,4 @@ document.addEventListener('DOMContentLoaded', function() {
 			event.preventDefault();
 		}
 	}, { passive: false });
-	
+});
