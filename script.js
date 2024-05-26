@@ -6,16 +6,16 @@ document.addEventListener('DOMContentLoaded', function() {
     var scoreDisplay = document.getElementById('score');
     var userInfoElement = document.getElementById('userInfo');
     var userId = window.Telegram.WebApp.initDataUnsafe.user.id;
-	var currentScore = 0;
-	var shrimpCount = 0;
-	var click_ratio = 1;
+    var currentScore = 0;
+    var shrimpCount = 0;
+    var click_ratio = 1;
 
-    // Функция для загрузки количества кликов с сервера
-	function click_calc() {
-		currentScore = currentScore + (1 * click_ratio);
-		document.getElementById('score').innerTEXT = currentScore
-	}
-	
+    // Функция для увеличения количества кликов
+    function click_calc() {
+        currentScore = currentScore + (1 * click_ratio);
+        document.getElementById('score').innerText = currentScore; // Исправлено на innerText
+    }
+    
     // Проверка наличия Telegram WebApp API
     if (window.Telegram && window.Telegram.WebApp) {
         console.log('Telegram WebApp API доступен');
@@ -32,11 +32,6 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Данные пользователя недоступны');
         }
 
-        // Загружаем количество кликов для текущего пользователя при загрузке страницы
-		// update_user_clicks();
-        // loadClicks();
-		// loadShrimpCount();
-
         // Сообщаем Telegram, что мини-приложение готово
         window.Telegram.WebApp.ready();
     } else {
@@ -51,7 +46,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('shrimpButton').addEventListener('click', function() {
         buyShrimp();
     });
-
 
     // Предотвращение увеличения масштаба при двойном тапе
     document.getElementById('clickButton').addEventListener('touchmove', function(event) {
