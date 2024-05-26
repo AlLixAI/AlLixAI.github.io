@@ -76,6 +76,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			document.getElementById('score').innerText = currentScore;
 			document.getElementById('shrimpCount').innerText = shrimpCount;
 			document.getElementById('shrimpPrice').innerText = calculateShrimpPrice(shrimpCount);
+
+			showBubbles(); // для красоты
 		})
 		.catch((error) => {
 			console.error('Ошибка при покупке:', error);
@@ -83,7 +85,35 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	}
 	
+	function showBubbles() {
+		const bubbleContainer = document.createElement('div');
+		bubbleContainer.style.position = 'absolute';
+		bubbleContainer.style.width = '100%';
+		bubbleContainer.style.height = '100%';
+		bubbleContainer.style.top = 0;
+		bubbleContainer.style.left = 0;
+		bubbleContainer.style.pointerEvents = 'none';
+		document.body.appendChild(bubbleContainer);
 	
+		for (let i = 0; i < 10; i++) {
+			const bubble = document.createElement('div');
+			bubble.className = 'bubble';
+			bubble.style.left = Math.random() * 100 + 'vw';
+			bubble.style.bottom = 0;
+			bubbleContainer.appendChild(bubble);
+	
+			// Удаление пузырька после завершения анимации
+			bubble.addEventListener('animationend', () => {
+				bubble.remove();
+			});
+		}
+	
+		// Удаление контейнера с пузырьками после завершения всех анимаций
+		setTimeout(() => {
+			bubbleContainer.remove();
+		}, 2000);
+	}
+
 	function updateInterface(data) {
 		// Обновляем элементы интерфейса на основе полученных данных
 		currentScore = data.clicks
