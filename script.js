@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var currentScore = 0;
     var shrimpCount = 0;
     var click_ratio = 1;
-	var shrimpPrice = 100
 
     // Функция для увеличения количества кликов
     function click_calc() {
@@ -43,6 +42,11 @@ document.addEventListener('DOMContentLoaded', function() {
 			return Math.round(100 * Math.pow(2.72, shrimpCount)); // Примерная логика, нужно заменить на вашу
 		}
 	}
+
+	function calculateShrimpIncome() {
+        currentScore += shrimpCount * 5;
+        document.getElementById('score').innerText = currentScore;
+    }
 
 	function buyShrimp() {
 
@@ -105,6 +109,8 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Ошибка при получении данных:', error);
         });
     }
+
+	setInterval(calculateShrimpIncome, 1000);
 
 	setInterval(update_clicks_on_server, 5000);
 
