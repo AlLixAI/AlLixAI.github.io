@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var currentScore = 0;
     var shrimpCount = 0;
     var click_ratio = 1;
+    const server = 'https://217d-46-158-159-62.ngrok-free.app/';
 
     // Функция для увеличения количества кликов
     function click_calc() {
@@ -17,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
 	function update_clicks_on_server(clicks) {
-        fetch('https://217d-46-158-159-62.ngrok-free.app/update_clicks_on_server', {
+        fetch(server + 'update_clicks_on_server', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -51,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	function buyShrimp() {
 		update_clicks_on_server();
 	
-		fetch('https://217d-46-158-159-62.ngrok-free.app/buy_shrimp', {
+		fetch(server + 'buy_shrimp', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -125,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
     function get_all_data() {
-        fetch('https://217d-46-158-159-62.ngrok-free.app/get_all_data', {
+        fetch(server + 'get_all_data', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
