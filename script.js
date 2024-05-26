@@ -8,188 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
     var userId = window.Telegram.WebApp.initDataUnsafe.user.id;
 	var currentScore = 0;
 	var shrimpCount = 0;
+	var click_ratio = 1;
 
     // Функция для загрузки количества кликов с сервера
-    async function loadClicks() {
-        try {
-            const response = await fetch('https://03a0-46-158-159-62.ngrok-free.app/get_clicks', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ telegram_id: userId })
-            });
-            if (!response.ok) {
-                throw new Error('Ошибка при загрузке кликов');
-            }
-            const data = await response.json();
-            currentScore = data.clicks;
-            scoreDisplay.textContent = currentScore;
-        } catch (error) {
-            console.error('Ошибка при загрузке кликов:', error.message);
-        }
-    }
-
-    async function sendScoreToServer() {
-        try {
-            const response = await fetch('https://03a0-46-158-159-62.ngrok-free.app/update_clicks', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ telegram_id: userId, clicks: currentScore })
-            });
-            if (!response.ok) {
-                throw new Error('Ошибка при отправке текущих очков');
-            }
-            await response.json();
-            console.log('Текущие очки отправлены на сервер');
-        } catch (error) {
-            console.error('Ошибка при отправке текущих очков:', error.message);
-        }
-    }
-
-    // Функция для отправки запроса на сервер при клике
-    function handleClick() {
-        currentScore += 1;
-        scoreDisplay.textContent = currentScore;
-    }
-	
-    async function sendActivityStatus(status) {
-        try {
-            const response = await fetch('https://03a0-46-158-159-62.ngrok-free.app/update_activity', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ telegram_id: userId, status: status })
-            });
-            if (!response.ok) {
-                throw new Error('Ошибка при отправке статуса активности');
-            }
-            await response.json();
-            console.log(`Статус активности: ${status}`);
-        } catch (error) {
-            console.error('Ошибка при отправке статуса активности:', error.message);
-        }
-    }
-	
-	function update_user_clicks() {
-		fetch('https://03a0-46-158-159-62.ngrok-free.app/get_user_data', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ telegram_id: userId })
-		})
-			.then(response => {
-				if (!response.ok) {
-					throw new Error('Ошибка при обновлении кликов пользователя');
-				}
-				return response.json();
-			})
-			.then(data => {
-				// Обновляем счетчик кликов на фронтенде
-				loadClicks();
-			})
-			.catch(error => {
-				console.error('Ошибка при обновлении кликов пользователя:', error.message);
-			});
+	function click_calc() {
+		currentScore = currentScore + (1 * click_ratio);
+		document.getElementById('score').innerTEXT = currentScore
 	}
-	
-	    // Функция для вычисления цены креветки
-    function calculateShrimpPrice(count) {
-        return Math.round(100 * Math.pow(2.72, count));
-    }
-
-    // Функция для обновления цены креветки в интерфейсе
-    function updateShrimpPrice(count) {
-        const price = calculateShrimpPrice(count);
-        document.getElementById('shrimpPrice').textContent = `(${price} clicks)`;
-    }
-	
-	function buyShrimp() {
-		// Отправка запроса на покупку креветок
-		fetch('https://03a0-46-158-159-62.ngrok-free.app/buy_shrimp', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ telegram_id: userId })
-		})
-		.then(response => {
-			if (!response.ok) {
-				// Если покупка не удалась, делаем кнопку красной
-				document.getElementById('shrimpButton').style.backgroundColor = '#dc3545';
-				// Через 1 секунду возвращаем кнопку к зеленому цвету
-				setTimeout(() => {
-					document.getElementById('shrimpButton').style.backgroundColor = '#28a745';
-				}, 1000);
-				throw new Error('Ошибка при покупке креветок');
-			}
-			return response.json();
-		})
-		.then(data => {
-			// Если покупка прошла успешно, обновляем количество креветок и очков
-			console.log('Куплено креветок:', data.amount);
-			loadClicks();
-			document.getElementById('shrimpCount').textContent = data.c_shrimp;
-			updateShrimpPrice(data.c_shrimp);
-		})
-		.catch(error => {
-			console.error('Ошибка при покупке креветок:', error.message);
-		});
-	}
-
-	async function loadShrimpCount() {
-    try {
-        const response = await fetch('https://03a0-46-158-159-62.ngrok-free.app/update_shrimp', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ telegram_id: userId })
-        });
-        if (!response.ok) {
-            throw new Error('Ошибка при загрузке количества креветок');
-        }
-        const data = await response.json();
-        shrimpCount = data.c_shrimp;
-        document.getElementById('shrimpCount').textContent = shrimpCount;
-        updateShrimpPrice(shrimpCount);
-        startAutoIncrement(shrimpCount);
-    } catch (error) {
-        console.error('Ошибка при загрузке количества креветок:', error.message);
-    }
-}
-
-
-    function startAutoIncrement(shrimpCount) {
-        clearInterval(window.autoIncrementInterval); // Очищаем предыдущий интервал, если он есть
-        window.autoIncrementInterval = setInterval(() => {
-            const increment = shrimpCount * 5;
-			currentScore = Math.round(currentScore + increment);
-            scoreDisplay.textContent = currentScore;
-        }, 1000); // 1000 мс = 1 секунда
-    }
-
-
-	async function updateServer() {
-		try {
-			await sendScoreToServer();
-			await loadClicks();
-			await loadShrimpCount();
-			await sendActivityStatus('online');
-		} catch (error) {
-			console.error('Ошибка при обновлении сервера:', error);
-		}
-	}
-
-	setInterval(() => {
-		updateServer();
-	}, 5000);
-
-    // потом открыть мб window.addEventListener('blur', () => sendActivityStatus('offline'));
 	
     // Проверка наличия Telegram WebApp API
     if (window.Telegram && window.Telegram.WebApp) {
@@ -208,9 +33,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Загружаем количество кликов для текущего пользователя при загрузке страницы
-		update_user_clicks();
-        loadClicks();
-		loadShrimpCount();
+		// update_user_clicks();
+        // loadClicks();
+		// loadShrimpCount();
 
         // Сообщаем Telegram, что мини-приложение готово
         window.Telegram.WebApp.ready();
@@ -220,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Обработчик клика по кнопке
     document.getElementById('clickButton').addEventListener('click', function() {
-        handleClick();
+        click_calc();
     });
 
     document.getElementById('shrimpButton').addEventListener('click', function() {
