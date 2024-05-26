@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			currentScore = data.clicks;
 			shrimpCount = data.c_shrimp;
 	
-			console.log('Успешно куплено. Количество кликов:', currentScore, 'Количество креветок:', c_shrimp);
+			console.log('Успешно куплено. Количество кликов:', currentScore, 'Количество креветок:', shrimpCount);
 			
 			document.getElementById('score').innerText = currentScore;
 			document.getElementById('shrimpCount').innerText = shrimpCount;
