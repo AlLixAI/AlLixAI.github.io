@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Установка цвета фона приложения
-    Telegram.WebApp.setBackgroundColor('#f0f0f0'); // Установка серого цвета фона
+    Telegram.WebApp.setBackgroundColor('#193aff'); // Установка серого цвета фона
 
     // Переменные для отслеживания кликов и ID пользователя
     var scoreDisplay = document.getElementById('score');
@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var currentScore = 0;
     var shrimpCount = 0;
     var click_ratio = 1;
-    const server = 'https://217d-46-158-159-62.ngrok-free.app/';
+    const server = 'https://8f1f-46-158-159-62.ngrok-free.app/';
 
     // Функция для увеличения количества кликов
     function click_calc() {
